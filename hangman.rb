@@ -1,21 +1,23 @@
 class Hangman
   def initialize
     puts "Welcome! Lets play Hangman!"
-    #@secret_word = File.readlines('dictionary.txt', chomp: true).select {|word| word.length >= 5 && word.length <= 12}.sample
-    @secret_word = 'regent'
+    @secret_word = File.readlines('dictionary.txt', chomp: true).select {|word| word.length >= 5 && word.length <= 12}.sample
     @secret_word_immutable = @secret_word.dup
     @secret_word_display = @secret_word.gsub(/[a-z]/, '_ ').chop.split(' ')
     @guesses = 6
+    @end_game = 0
     @wrong_letters_guessed = []
     @right_letters_guessed = []
   end
 
+  private
   def display
     puts "\nYou have #{@guesses} guesses left!"
     puts "\n#{@secret_word_display.join(' ')}"
     puts "\nIncorrect letters already guessed: #{@wrong_letters_guessed.join(', ')}" if @wrong_letters_guessed != []
   end
 
+  private
   def guess_letter
     begin
       puts "Guess a letter!"
@@ -41,13 +43,25 @@ class Hangman
     end
   end
 
+  private
+  def guess_word
+    puts "\nWould you like to guess the word? (yes or no).\nYou only can guess once per round."
+    answer = gets.chomp.downcase
+    if answer == 'yes'
+        puts "\nTry to guess the word!"
+        guess_word = gets.chomp.downcase
+        if guess_word == @secret_word_immutable
+          @end_game += 1
+        end
+    end
+  end
+
+  public
   def play_game
-    while @guesses != 0 
-      if @secret_word_immutable == @secret_word_display.join
-        puts "You guessed the word!"
-        break
-      end
+    while @guesses != 0 || @secret_word_immutable == @secret_word_display.join || @end_game == 0
       display
+      guess_word
+      break if @end_game != 0
       guess_letter
     end
     puts "GAME OVER. The secret word was: #{@secret_word_immutable}"
