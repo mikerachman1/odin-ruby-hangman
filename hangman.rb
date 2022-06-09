@@ -3,6 +3,7 @@ class Hangman
     puts "Welcome! Lets play Hangman!"
     #@secret_word = File.readlines('dictionary.txt', chomp: true).select {|word| word.length >= 5 && word.length <= 12}.sample
     @secret_word = 'regent'
+    @secret_word_immutable = @secret_word.dup
     @secret_word_display = @secret_word.gsub(/[a-z]/, '_ ').chop.split(' ')
     @guesses = 6
     @wrong_letters_guessed = []
@@ -39,9 +40,19 @@ class Hangman
       @guesses -= 1
     end
   end
+
+  def play_game
+    while @guesses != 0 
+      if @secret_word_immutable == @secret_word_display.join
+        puts "You guessed the word!"
+        break
+      end
+      display
+      guess_letter
+    end
+    puts "GAME OVER. The secret word was: #{@secret_word_immutable}"
+  end
 end
 
 game = Hangman.new
-game.display
-game.guess_letter
-game.display
+game.play_game
