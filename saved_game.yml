@@ -1,17 +1,15 @@
 ---
-secret_word: r-g-nt
-secret_word_immutable: regent
+secret_word: n-rv-
+secret_word_immutable: nerve
 secret_word_display:
 - _
 - e
 - _
+- _
 - e
-- _
-- _
-guesses: 3
+guesses: 4
 end_game: 0
 wrong_letters_guessed:
-- p
-- x
+- t
 right_letters_guessed:
 - e

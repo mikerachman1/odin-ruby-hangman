@@ -3,8 +3,7 @@ require 'yaml'
 class Hangman
   def initialize
     puts "Welcome! Lets play Hangman!"
-    # @secret_word = File.readlines('dictionary.txt', chomp: true).select {|word| word.length >= 5 && word.length <= 12}.sample
-    @secret_word = 'regent'
+    @secret_word = File.readlines('dictionary.txt', chomp: true).select {|word| word.length >= 5 && word.length <= 12}.sample
     @secret_word_immutable = @secret_word.dup
     @secret_word_display = @secret_word.gsub(/[a-z]/, '_ ').chop.split(' ')
     @guesses = 6
