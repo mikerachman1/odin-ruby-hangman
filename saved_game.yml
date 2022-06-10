@@ -1,15 +1,19 @@
 ---
-secret_word: n-rv-
-secret_word_immutable: nerve
+secret_word: c-u-ing
+secret_word_immutable: causing
 secret_word_display:
 - _
-- e
+- a
+- _
+- s
 - _
 - _
-- e
-guesses: 4
+- _
+guesses: 2
 end_game: 0
 wrong_letters_guessed:
-- t
-right_letters_guessed:
+- o
 - e
+right_letters_guessed:
+- s
+- a

@@ -91,10 +91,12 @@ class Hangman
 
   public
   def play_game
-    while @guesses != 0 || @secret_word_immutable == @secret_word_display.join || @end_game == 0
+    loop do
+      if @end_game != 0 || @guesses == 0 || @secret_word_immutable == @secret_word_display.join
+        break
+      end
       display
       guess_word
-      break if @end_game != 0
       guess_letter
     end
     puts "GAME OVER. The secret word was: #{@secret_word_immutable}"
