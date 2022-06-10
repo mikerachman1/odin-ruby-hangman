@@ -1,13 +1,31 @@
+require 'yaml'
+
 class Hangman
   def initialize
     puts "Welcome! Lets play Hangman!"
-    @secret_word = File.readlines('dictionary.txt', chomp: true).select {|word| word.length >= 5 && word.length <= 12}.sample
+    # @secret_word = File.readlines('dictionary.txt', chomp: true).select {|word| word.length >= 5 && word.length <= 12}.sample
+    @secret_word = 'regent'
     @secret_word_immutable = @secret_word.dup
     @secret_word_display = @secret_word.gsub(/[a-z]/, '_ ').chop.split(' ')
     @guesses = 6
     @end_game = 0
     @wrong_letters_guessed = []
     @right_letters_guessed = []
+    puts "\nWould you like to load previously saved game? (yes or no)"
+    answer = gets.chomp.downcase
+    load_game if answer == 'yes'
+  end
+
+  def load_game
+    yaml = YAML.load_file('saved_game.yml')
+    @secret_word = yaml['secret_word']
+    @secret_word_immutable = yaml['secret_word_immutable']
+    @secret_word_display = yaml['secret_word_display']
+    @guesses = yaml['guesses']
+    @end_game = yaml['end_game']
+    @wrong_letters_guessed = yaml['wrong_letters_guessed']
+    @right_letters_guessed = yaml['right_letters_guessed']
+    puts "\nSaved game loaded!"
   end
 
   private
@@ -45,8 +63,9 @@ class Hangman
 
   private
   def guess_word
-    puts "\nWould you like to guess the word? (yes or no).\nYou only can guess once per round."
+    puts "\nWould you like to guess the word? (Enter yes or no, or enter save to save the game)"
     answer = gets.chomp.downcase
+    save_game if answer == 'save'
     if answer == 'yes'
         puts "\nTry to guess the word!"
         guess_word = gets.chomp.downcase
@@ -54,6 +73,21 @@ class Hangman
           @end_game += 1
         end
     end
+  end
+
+  private
+  def save_game
+    save_hash = {
+        'secret_word' => @secret_word,
+        'secret_word_immutable' => @secret_word_immutable,
+        'secret_word_display' => @secret_word_display,
+        'guesses' => @guesses,
+        'end_game' => @end_game,
+        'wrong_letters_guessed' => @wrong_letters_guessed,
+        'right_letters_guessed' => @right_letters_guessed
+    }
+    File.open('saved_game.yml', 'w') { |f| YAML.dump(save_hash, f) }
+    puts 'Game Saved!'
   end
 
   public

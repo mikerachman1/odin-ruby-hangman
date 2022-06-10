@@ -1,0 +1,17 @@
+---
+secret_word: r-g-nt
+secret_word_immutable: regent
+secret_word_display:
+- _
+- e
+- _
+- e
+- _
+- _
+guesses: 3
+end_game: 0
+wrong_letters_guessed:
+- p
+- x
+right_letters_guessed:
+- e
